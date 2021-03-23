@@ -1,0 +1,53 @@
+server:
+  # 服务端口
+  port: 6060
+
+spring:
+  profiles:
+    include: jdbc
+  thymeleaf:
+    cache: false
+    enabled: false
+  redis:
+    # shiro是否使用Redis缓存是否开启 true开启  flase关闭
+    open: false
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: 127.0.0.1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis 密码
+    password: 123456
+    jedis:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 8
+        # 连接池中的最大空闲连接
+        max-idle: 500
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 2000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 10000
+    # 连接超时时间（毫秒）
+    timeout: 5000
+
+  activiti:
+    # 自动部署验证设置:true-开启（默认）、false-关闭
+    check-process-definitions: false
+    #配置项可以设置流程引擎启动和关闭时数据库执行的策略
+    database-schema-update: true
+    #保存历史数据级别设置为full最高级别，便于历史数据的追溯
+    history-level: full
+    #日志输出控制
+    async-executor-activate: false
+  mvc:
+    view:
+      prefix: /
+      #check-template-location: true
+      suffix: .html
+      #template-loader-path: classpath:/static/
+      static-path-pattern: /**
+  resources:
+    static-locations: classpath:/static/
+

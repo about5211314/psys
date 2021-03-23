@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="form/show/index.css">
+    <link rel="stylesheet" href="form/show/FormMaking.css">
+</head>
+<body>
+<div id="app">
+    <fm-generate-form
+            :data="jsonData"
+            :remote="remoteFuncs"
+            :value="editData"
+            ref="generateForm"
+    >
+    </fm-generate-form>
+    <el-button type="primary" @click="handleSubmit">提交</el-button>
+</div>
+<script src="form/show/vue.js"></script>
+<script src="form/show/index.js"></script>
+<script src="form/show/FormMaking.umd.js"></script>
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $.ajax({
+        type: 'POST',
+        url: '/sys-forms/find?id='+[[${formKey}]],
+        dataType: 'json',
+        success: function(data){
+            // alert(eval(eval(data).data).formValue)
+            var jsonstr = eval(eval(data).data).formValue
+
+
+            new Vue({
+                el: '#app',
+                data: {
+                    jsonData: JSON.parse(jsonstr),
+                    editData: {},
+                    remoteFuncs: {
+
+                    }
+                },
+                methods: {
+                    handleSubmit () {
+                        this.$refs.generateForm.getData().then(data => {
+                            alert(JSON.stringify(data))
+                        $.ajax({
+                            type: 'POST',
+                            contentType: "application/json;charset=UTF-8",
+                            url: '/runtime/tasks/do/'+[[${taskId}]],
+                            dataType: 'json',
+                            data:JSON.stringify(data),
+                            //data:'{"dealType":"0","dealReason":"eeeee"}',
+                            success: function(data){
+                                layer.msg('提交成功！!',{icon:1,time:1000});
+                            },
+                            error:function(data) {
+                                console.log(data.msg);
+                            },
+                        });
+
+
+
+
+                        // alert();
+                        //   alert(JSON.stringify(data))
+                        // data check success
+                        // data - form data
+                    }).catch(e => {
+                            // data check failed
+                        })
+                    }
+                }
+            })
+
+
+
+            // alert(obj);
+            //  layer.msg('已删除!',{icon:1,time:1000});
+        },
+        error:function(data) {
+            // console.log(data.msg);
+        },
+    });
+</script>
+</body>
+</html>
