@@ -17,6 +17,7 @@ public class CorsConfig {
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.setAllowCredentials(true);
         return corsConfiguration;
+
     }
 
     @Bean
